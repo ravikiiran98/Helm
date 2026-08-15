@@ -1,0 +1,14 @@
+replicaCount: 2
+
+image:
+  repository: ravikiiran/hello-world
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: NodePort
+  port: 8081
+  targetPort: 8080
+  nodePort: 30081
+
+containerPort: 8080
