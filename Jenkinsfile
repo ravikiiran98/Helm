@@ -56,6 +56,8 @@ pipeline {
         stage('Deploy with Helm') {
             steps {
                 sh '''
+		    export KUBECONFIG=/var/lib/jenkins/.kube/config
+	
                     kubectl config use-context ${KUBE_CONTEXT}
 
                     helm upgrade --install ${HELM_RELEASE} ${HELM_CHART} \
