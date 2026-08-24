@@ -64,7 +64,7 @@ pipeline {
                         --set image.repository=${IMAGE_NAME} \
                         --set image.tag=${IMAGE_TAG} \
                         --set image.pullPolicy=Always \
-                        --set replicaCount=2 \
+                      #  --set replicaCount=4 \
                         --wait \
                         --timeout 5m
                 '''
