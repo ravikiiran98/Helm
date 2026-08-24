@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 4
 
 image:
   repository: ravikiiran/hello-world
@@ -12,3 +12,7 @@ service:
   nodePort: 30081
 
 containerPort: 8080
+
+rollingUpdate:
+  maxUnavailable: 1
+  maxSurge: 1

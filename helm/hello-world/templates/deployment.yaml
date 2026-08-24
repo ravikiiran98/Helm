@@ -4,6 +4,12 @@ metadata:
   name: {{ .Release.Name }}-hello-world
 spec:
   replicas: {{ .Values.replicaCount }}
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: {{ .Values.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.rollingUpdate.maxSurge }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}-hello-world
