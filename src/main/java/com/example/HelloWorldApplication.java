@@ -15,7 +15,7 @@ public class HelloWorldApplication {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello World2 - Version2";
+        return "Hello World2 - Version6";
     }
 
     @GetMapping("/health")

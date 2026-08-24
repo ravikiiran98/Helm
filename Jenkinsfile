@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "ravikiiran/hello-world"
-        IMAGE_TAG = "latest"
+        IMAGE_TAG = "6.0"
         DOCKER_CREDENTIALS = "dockerhub-creds"
         HELM_RELEASE = "hello-world"
         HELM_CHART = "./helm/hello-world"
