@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-```
 environment {
     IMAGE_NAME = "ravikiiran/hello-world"
     IMAGE_TAG = "${BUILD_NUMBER}"
