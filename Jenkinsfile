@@ -150,38 +150,43 @@ stages {
 
 
     stage('Monitor Pod CPU Usage') {
-        steps {
-            sh '''
-                export KUBECONFIG=${KUBECONFIG_PATH}
+    steps {
+        sh '''
+            export KUBECONFIG=/var/lib/jenkins/.kube/config
 
-                echo "===== Starting Prometheus Port Forward ====="
+            echo "===== Checking Prometheus ====="
 
-                kubectl port-forward \
-                    -n monitoring \
-                    svc/prometheus \
-                    9090:9090 \
-                    >/tmp/prometheus.log 2>&1 &
+            kubectl get pods -n monitoring
 
-                PROM_PID=$!
+            echo "===== Starting Prometheus Port Forward ====="
 
-                sleep 10
+            LOG_FILE=$WORKSPACE/prometheus.log
 
+            kubectl port-forward \
+                -n monitoring \
+                svc/prometheus \
+                9090:9090 \
+                > $LOG_FILE 2>&1 &
 
-                echo "===== Pod CPU Usage ====="
+            PROM_PID=$!
 
-                curl -sG \
-                    'http://localhost:9090/api/v1/query' \
-                    --data-urlencode \
-                    'query=sum(rate(container_cpu_usage_seconds_total{container!="",pod!=""}[5m])) by (pod)'
+            sleep 10
 
-                echo ""
+            echo "===== Pod CPU Usage ====="
 
-                echo "===== Stopping Prometheus Port Forward ====="
+            curl -sG \
+                http://localhost:9090/api/v1/query \
+                --data-urlencode \
+                'query=sum(rate(container_cpu_usage_seconds_total{container!="",pod=~"hello-world-.*"}[5m])) by (pod)'
 
-                kill $PROM_PID || true
-            '''
-        }
+            echo ""
+
+            echo "===== Stopping Prometheus Port Forward ====="
+
+            kill $PROM_PID 2>/dev/null || true
+        '''
     }
+}
 }
 }
 
